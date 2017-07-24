@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>videoDemo</title>
+	<link href="css/video-js.css" rel="stylesheet">
+	<!-- If you'd like to support IE8 -->
+	<script src="js/videojs-ie8.min.js"></script>
+	<script src="js/video.min.js"></script>	
+	<style>
+		body{
+			background-color: #191919;
+		}
+		.video-container{
+			width: 640px;
+			height: 264px;
+			margin: 100px auto 0;
+		}
+
+		.btn-group{
+			width: 640px;
+			margin: 20px auto;
+		}
+		.btn-group .btn{
+			display: inline-block;
+			margin: 0 10px;
+			height: 36px;
+			line-height: 36px;
+			background-color: #fff;
+			color: #333;
+			border-radius: 10px;
+			text-decoration: none;
+			padding: 0 10px;
+		}
+	</style>
+		
+</head>
+<body>
+	<div class="video-container">
+		<video id="my-video" class="video-js" controls preload="auto" width="640" height="264"
+		  poster="http://vjs.zencdn.net/v/oceans.png" data-setup="{}">
+		  	<!-- 备注：H5标签video支持的编码为视频编码H.264，音频AAC -->
+			<source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+			<source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm">
+			<source src="http://vjs.zencdn.net/v/oceans.ogv" type="video/ogg">
+			<p class="vjs-no-js">
+			  To view this video please enable JavaScript, and consider upgrading to a web browser that
+			  <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+			</p>
+		  </video>		
+	</div>
+
+	<div class="btn-group">
+		<a href="javascript:;" class="btn" id="play">播放</a>
+		<a href="javascript:;" class="btn" id="pause">暂停</a>
+		<a href="javascript:;" class="btn" id="duration">获取时长</a>
+		<a href="javascript:;" class="btn" id="schedule">获取进度</a>
+	</div>
+
+
+	
+	<script>
+
+			var myPlayer = videojs("my-video");//初始化播放器对象，参数为video的id
+			myPlayer.ready(function(){
+				var myPlayer = this;
+				myPlayer.play();//准备好之后自动播放
+			});	
+
+			//循环播放，结束时回调播放的方法
+			myPlayer.on("ended",function(){
+				myPlayer.play();
+			});	
+
+			//暂停时可以回调
+			myPlayer.on("pause",function(){
+				alert("休息休息一下~~");
+			})
+
+			//几个按钮
+			var playBtn = document.getElementById("play");
+			var pauseBtn = document.getElementById("pause");
+			var durationBtn = document.getElementById("duration");
+			var scheduleBtn = document.getElementById("schedule");
+			var fullscreenBtn = document.getElementById("fullscreen");
+
+			play.addEventListener("click",function(){
+				//播放
+				myPlayer.play();
+			})
+
+			pauseBtn.addEventListener("click",function(){
+				//暂停
+				myPlayer.pause();
+			})
+
+			durationBtn.addEventListener("click",function(){
+				//获取时长
+				var duration = myPlayer.duration();
+				alert("视频总时间为" + duration + "秒");
+			})
+
+			scheduleBtn.addEventListener("click",function(){
+				//获取当前的时间
+				var schedule = myPlayer.currentTime();
+				alert("当前播放至" + schedule + "秒;" + "随后将为您跳至开始...");
+				//给currentTime()函数传参可跳至该时间
+				setTimeout(function(){
+					myPlayer.currentTime(0);
+				},2000);
+				
+			})
+
+
+
+	</script>
+</body>
+</html>
